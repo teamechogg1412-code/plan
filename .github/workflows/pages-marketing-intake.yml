@@ -1,4 +1,4 @@
-# marketing-intake 폼 → GitHub Pages (하위 폴더 배포)
+# marketing-intake 폼 → GitHub Pages
 name: Deploy marketing-intake to Pages
 
 on:
