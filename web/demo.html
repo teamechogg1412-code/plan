@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NOH SANG HYUN | Official Strategy Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* [1] 전역 스타일 */
+        :root { 
+            --accent-navy: #1a237e; 
+            --accent-gold: #d4af37;
+            --text-main: #000; 
+            --text-sub: #555;
+            --bg-soft: #fcfcfc;
+            --line-light: #eeeeee;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html { scroll-behavior: smooth; }
+        body { background-color: #fff; color: var(--text-main); font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; word-break: keep-all; }
+        img { max-width: 100%; height: auto; display: block; }
+        a { text-decoration: none; color: inherit; }
+
+        /* [2] 네비게이션 */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 15px 6%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.98); z-index: 1000; border-bottom: 2px solid var(--accent-navy);
+            backdrop-filter: blur(15px);
+        }
+        .logo { font-size: 1.1rem; font-weight: 900; letter-spacing: 2px; color: var(--accent-navy); text-transform: uppercase; }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { font-size: 0.8rem; color: var(--text-sub); font-weight: 700; text-transform: uppercase; }
+
+        /* [3] 섹션 공통 */
+        section { 
+            min-height: 100vh; 
+            padding: 100px 8% 60px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            border-bottom: 1px solid var(--line-light);
+            position: relative;
+        }
+        .section-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 50px; text-align: center; letter-spacing: 4px; text-transform: uppercase; color: var(--accent-navy); }
+
+        /* [4] MARKET INSIGHT DASHBOARD */
+        .insight-section { background-color: #f8faff; padding: 100px 8%; }
+        .insight-dashboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3개씩 나란히 */
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .insight-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border: 1px solid #eef2f6;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 1; /* 애니메이션 없이 바로 보이게 */
+        }
+
+        .card-label { font-size: 0.75rem; color: #999; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .card-value { font-size: 2.2rem; font-weight: 900; color: #1a237e; }
+        .card-sub { font-size: 0.9rem; color: #555; margin-top: 5px; font-weight: 600; }
+
+        /* 구글 트렌드 전용 */
+        .trend-card { grid-row: span 2; background: #1a237e; color: #fff; }
+        .bar-chart-container { 
+            display: flex; 
+            align-items: flex-end; 
+            justify-content: space-between; 
+            height: 180px; 
+            margin-top: 20px;
+        }
+        .trend-bar-wrap { display: flex; flex-direction: column; align-items: center; flex: 1; }
+        .trend-bar { 
+            width: 35px; 
+            background: rgba(255,255,255,0.2); 
+            border-radius: 4px 4px 0 0;
+            /* height: 0; 설정을 완전히 지웠습니다. HTML 스타일이 적용됩니다. */
+        }
+        .trend-bar.highlight { background: #fff; box-shadow: 0 0 15px rgba(255,255,255,0.4); }
+        .trend-year { font-size: 0.7rem; font-weight: 700; margin-top: 8px; opacity: 0.7; }
+
+        /* 성별/연령대 기타 스타일 */
+        .gender-chart-wrap { display: flex; align-items: center; gap: 20px; }
+        .donut-chart {
+            width: 70px; height: 70px; border-radius: 50%;
+            background: conic-gradient(#1a237e 0% 89%, #eee 89% 100%);
+            display: flex; align-items: center; justify-content: center; position: relative;
+        }
+        .donut-chart::after {
+            content: "89%"; position: absolute; width: 50px; height: 50px; background: #fff; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.9rem; color: #000;
+        }
+        .age-bars { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+        .age-row { display: flex; align-items: center; gap: 10px; }
+        .age-label { width: 30px; font-size: 0.75rem; font-weight: 800; color: #777; }
+        .age-bar-bg { flex: 1; height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+        .age-bar-fill { height: 100%; background: #1a237e; border-radius: 4px; }
+
+        /* 나머지 프로필/커리어 스타일 유지 */
+        #profile { display: flex; flex-direction: row; gap: 60px; align-items: center; }
+        .profile-img-wrap { flex: 0 0 40%; max-width: 450px; }
+        .profile-img-wrap img { border-radius: 8px; box-shadow: 15px 15px 40px rgba(0,0,0,0.08); }
+        .profile-content { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .name-area { border-bottom: 4px solid #000; padding-bottom: 10px; margin-bottom: 10px; }
+        .name-area h1 { font-size: 3.2rem; font-weight: 900; line-height: 1.1; }
+        .name-area .eng { font-size: 1.2rem; color: #999; font-weight: 300; letter-spacing: 4px; text-transform: uppercase; }
+        .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .data-item { background: var(--bg-soft); padding: 20px 5px; text-align: center; border-radius: 8px; border: 1px solid #eee; }
+        .data-item .label { display: block; font-size: 0.75rem; color: var(--accent-navy); font-weight: 800; margin-bottom: 5px; text-transform: uppercase; }
+        .data-item .value { font-size: 1.3rem; font-weight: 900; }
+        .engagement-info { font-size: 0.9rem; color: var(--text-sub); display: flex; gap: 20px; justify-content: flex-end; font-weight: 700; margin-top: -10px; }
+        .highlight-group h3 { font-size: 0.85rem; color: #888; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; }
+        .tag-container { display: flex; flex-wrap: wrap; gap: 8px; }
+        .premium-tag { font-size: 0.85rem; color: #333; border: 1.5px solid #ddd; padding: 6px 15px; font-weight: 700; border-radius: 4px; background: #fff; }
+        .premium-tag.important { color: #fff; border-color: var(--accent-navy); background: var(--accent-navy); }
+        .premium-tag.award { background: var(--accent-gold); border-color: var(--accent-gold); color: #fff; }
+        .talent-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 20px; background: #f0f4f8; border-radius: 12px; border-left: 6px solid var(--accent-navy); }
+        .summary-item .label { font-size: 0.7rem; color: var(--accent-navy); font-weight: 800; display: block; margin-bottom: 3px; }
+        .summary-item .value { font-size: 1rem; font-weight: 800; }
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+        .detail-column h3 { font-size: 1.2rem; font-weight: 900; color: var(--accent-navy); margin-bottom: 25px; border-bottom: 3px solid var(--accent-navy); padding-bottom: 10px; }
+        .career-item { margin-bottom: 15px; display: flex; gap: 15px; font-size: 0.9rem; }
+        .career-year { font-weight: 900; color: var(--text-sub); width: 45px; flex-shrink: 0; }
+        .career-title { font-weight: 700; }
+        .archive-grid-6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .archive-section h3 { font-size: 1rem; color: var(--accent-navy); margin-bottom: 15px; border-bottom: 2px solid var(--accent-navy); padding-bottom: 8px; font-weight: 900; }
+        .clickable-item { padding: 12px 0; border-bottom: 1px solid #f0f0f0; cursor: pointer; font-size: 0.9rem; font-weight: 700; display: flex; justify-content: space-between; }
+        .clickable-item:hover { color: var(--accent-navy); background: #f8faff; }
+        #videoModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { position: relative; width: 90%; max-width: 1000px; aspect-ratio: 16/9; background: #000; border: 4px solid #fff; }
+        .close-modal { position: absolute; top: -60px; right: 0; color: #fff; font-size: 3rem; cursor: pointer; }
+        footer { padding: 60px 8%; text-align: center; color: #000; font-size: 0.9rem; border-top: 5px solid #111; font-weight: 900; }
+        .up-arrow { color: #ff5252; margin-left: 8px; }
+
+        @media (max-width: 768px) {
+            section { height: auto; padding: 80px 6% 40px; }
+            #profile { flex-direction: column; text-align: center; }
+            .profile-img-wrap { flex: 0 0 auto; width: 100%; max-width: 350px; }
+            .data-grid, .detail-grid, .insight-grid, .archive-grid-6, .insight-dashboard { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .insight-dashboard { grid-template-columns: 1fr; }
+        }
+        /* KEYWORD CLOUD SECTION STYLE */
+        .keyword-cloud-section {
+            background-color: #fff;
+            padding: 80px 8%;
+            text-align: center;
+        }
+
+        .cloud-container {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 30px;
+            padding: 60px 40px;
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            min-height: 500px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            gap: 30px 40px; /* 키워드 간 간격 */
+            box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+        }
+
+        .cloud-title {
+            font-size: 0.85rem;
+            color: #1a237e;
+            font-weight: 900;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        /* 개별 키워드 스타일 */
+        .keyword-tag {
+            display: inline-block;
+            white-space: nowrap;
+            cursor: default;
+            transition: all 0.3s ease;
+            animation: floating-tag 6s ease-in-out infinite;
+        }
+
+        /* 크기/색상별 클래스 */
+        .tag-xl { font-size: 2.2rem; font-weight: 900; color: #1a237e; }
+        .tag-l { font-size: 1.6rem; font-weight: 800; color: #283593; }
+        .tag-m { font-size: 1.2rem; font-weight: 700; color: #555; }
+        .tag-s { font-size: 0.95rem; font-weight: 500; color: #999; }
+
+        /* 둥둥 떠다니는 애니메이션 */
+        @keyframes floating-tag {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(5px, -10px); }
+            66% { transform: translate(-5px, 5px); }
+        }
+
+        /* 마우스 올리면 강조 */
+        .keyword-tag:hover {
+            color: #d4af37 !important;
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .cloud-container { padding: 40px 20px; min-height: 400px; gap: 20px 25px; }
+            .tag-xl { font-size: 1.5rem; }
+            .tag-l { font-size: 1.2rem; }
+            .tag-m { font-size: 1rem; }
+        }
+        /* CAREER PORTFOLIO SECTION STYLE */
+        .career-section {
+            background-color: #fff;
+            padding: 100px 8%;
+        }
+
+        .career-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr; /* 두 컬럼의 비율 조절 */
+            gap: 80px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .career-col h3 {
+            font-size: 1.4rem;
+            color: #1a237e;
+            font-weight: 900;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #1a237e;
+            letter-spacing: 1px;
+        }
+
+        .career-list {
+            list-style: none;
+        }
+
+        .career-item {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            align-items: flex-start;
+        }
+
+        .career-label {
+            width: 70px; /* 연도/카테고리 영역 너비 */
+            font-size: 1rem;
+            font-weight: 900;
+            color: #666;
+            flex-shrink: 0;
+            letter-spacing: 1px;
+        }
+
+        .career-content .title {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #000;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .career-content .desc {
+            display: block;
+            font-size: 0.85rem;
+            color: #777;
+            font-weight: 500;
+        }
+
+        /* 모바일 대응 */
+        @media (max-width: 1024px) {
+            .career-grid { grid-template-columns: 1fr; gap: 60px; }
+            .career-item { gap: 20px; }
+            .career-label { width: 55px; font-size: 0.9rem; }
+        }
+        
+
+        /* [강화] 전략 리포트 섹션 디자인 */
+        .report-section {
+            background-color: #fff; /* 배경을 깨끗한 흰색으로 변경 */
+            padding: 80px 8% 60px;
+            border-top: 2px solid var(--accent-navy);
+        }
+
+        .report-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .report-header {
+            border-bottom: 3px solid var(--accent-navy); /* 하단 선 색상 변경 */
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .report-header h2 { font-size: 1.8rem; font-weight: 900; letter-spacing: -1px; color: var(--accent-navy); }
+        .report-header .subtitle { font-size: 0.9rem; color: #666; margin-top: 5px; font-weight: 700; }
+        .report-header .ref-id { font-size: 0.8rem; font-family: monospace; font-weight: 900; color: #000; }
+
+        .report-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .report-col h3 {
+            font-size: 1.15rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-navy); /* 소제목 색상 변경 */
+        }
+
+        /* 강조 상자 컬러 추가 */
+        .strategy-box {
+            background: #e8eaf6; /* 연한 네이비 배경 */
+            border-left: 5px solid var(--accent-navy); /* 왼쪽 강조 포인트 */
+            padding: 18px 22px;
+            border-radius: 0 10px 10px 0;
+            margin-top: 20px;
+        }
+
+        .strategy-box strong { font-size: 0.9rem; color: var(--accent-navy); display: block; margin-bottom: 5px; }
+        .strategy-box p { font-size: 0.85rem; color: #444; margin: 0; line-height: 1.6; }
+
+        .report-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        /* 지표 카드 컬러 강화 */
+        .metric-item {
+            border: 2px solid var(--accent-navy);
+            background: #fff;
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 5px 5px 0px var(--accent-navy); /* 입체감 있는 그림자 */
+        }
+
+        .metric-item span { font-size: 0.75rem; color: #666; font-weight: 800; margin-bottom: 5px; display: block; }
+        .metric-item strong { font-size: 1.5rem; font-weight: 900; color: var(--accent-navy); }
+
+        /* 하단 배너 컬러 강화 */
+        .final-suggestion {
+            background: var(--accent-navy);
+            color: #fff;
+            padding: 40px 45px;
+            border-radius: 24px;
+            text-align: center;
+            border: 2px solid var(--accent-gold); /* 금색 테두리 포인트 */
+        }
+
+        .final-suggestion p {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .final-footer {
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: var(--accent-gold); /* 금색 포인트 */
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .final-footer::before, .final-footer::after { content: ''; width: 40px; height: 1px; background: rgba(212, 175, 55, 0.4); }
+        /* VISUAL ARCHIVE SECTION */
+        /* VISUAL ARCHIVE - 6 CATEGORIES STYLE */
+        .archive-section { padding: 100px 8%; background: #fff; text-align: center; }
+        .archive-container { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); /* 데스크탑 3열 */
+            gap: 60px 40px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            text-align: left; 
+        }
+
+        .archive-col h3 { 
+            font-size: 1.1rem; color: var(--accent-navy); font-weight: 900; 
+            padding-bottom: 12px; border-bottom: 3px solid var(--accent-navy); 
+            margin-bottom: 25px; text-transform: uppercase; 
+        }
+
+        .archive-list { list-style: none; margin-bottom: 20px; min-height: 150px; }
+        .archive-item { 
+            display: flex; justify-content: space-between; padding: 12px 0; 
+            border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; font-weight: 700; 
+            cursor: pointer; transition: 0.2s; 
+        }
+        .archive-item:hover { color: var(--accent-navy); padding-left: 5px; }
+        .archive-item .year { color: #ccc; font-weight: 500; font-size: 0.8rem; }
+
+        .archive-btn { 
+            background: var(--accent-navy); color: #fff; border: none; 
+            padding: 10px 20px; border-radius: 25px; font-size: 0.7rem; 
+            font-weight: 800; cursor: pointer; transition: 0.3s; 
+            text-transform: uppercase; letter-spacing: 1px; width: 100%;
+        }
+        .archive-btn:hover { background: #000; transform: translateY(-3px); }
+
+        @media (max-width: 1024px) { .archive-container { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .archive-container { grid-template-columns: 1fr; } }
+
+        /* LIBRARY MODAL (그리드 화면) */
+        #libraryModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 1500; overflow-y: auto; padding: 60px 8%; }
+        .lib-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--accent-navy); padding-bottom: 20px; margin-bottom: 40px; }
+        .lib-header h2 { font-size: 1.5rem; color: var(--accent-navy); font-weight: 900; }
+        .lib-close { font-size: 2.5rem; cursor: pointer; color: #000; transition: 0.2s; }
+        .lib-close:hover { transform: rotate(90deg); }
+
+        .lib-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        .lib-card { cursor: pointer; transition: 0.3s; }
+        .lib-card:hover { transform: translateY(-10px); }
+        .lib-thumb { width: 100%; aspect-ratio: 3/4; background: #eee; border-radius: 8px; overflow: hidden; margin-bottom: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .lib-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .lib-info .lib-year { font-size: 0.75rem; color: var(--accent-navy); font-weight: 800; margin-bottom: 5px; }
+        .lib-info .lib-name { font-size: 0.95rem; font-weight: 800; color: #000; }
+
+        /* MAGAZINE/AD MODE (세로형 강조) */
+        .lib-grid.magazine-mode .lib-thumb { aspect-ratio: 3/4.5; }
+
+        /* IMAGE VIEW MODAL (상세 이미지) */
+        #imgModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
+        #imgView { max-width: 90%; max-height: 90%; border: 5px solid #fff; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+
+        @media (max-width: 768px) {
+            .archive-container { grid-template-columns: 1fr; }
+            .lib-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* 비디오 모달 내부 레이아웃 수정 */
+        #videoModal .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 1000px;
+            aspect-ratio: 16/9; /* 16:9 비율 유지 */
+            background: #000;
+            border: 4px solid #fff;
+            padding: 0; /* 내부 여백 제거 */
+            overflow: hidden;
+        }
+
+        #modalIframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -50px;
+            right: -10px;
+            color: #fff;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 2100;
+        }
+    /* ENERGY FLOW ROADMAP SECTION STYLE */
+    /* ENERGY FLOW 섹션 레이아웃 정밀 조정 */
+    .energy-flow-section {
+        padding: 100px 0 !important;
+        background-color: #fff;
+    }
+
+    .energy-content {
+        max-width: 1250px; /* 가로를 조금 더 넓게 설정 */
+        margin: 0 auto;
+        padding: 0 40px;
+    }
+
+    /* 그래프 영역 높이를 낮춰서 곡선을 완만하게 함 */
+    .roadmap-container {
+        position: relative;
+        height: 320px; /* 기존 450px -> 320px로 낮춤 */
+        margin: 40px 0 60px;
+    }
+
+    .energy-path-svg {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 1;
+    }
+
+    .energy-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 60px;
+    }
+
+    .energy-header h2 { font-size: 2.2rem; font-weight: 900; letter-spacing: -1.5px; }
+    .energy-header .subtitle { font-size: 1rem; color: #967233; font-weight: 700; margin-top: 10px; letter-spacing: 2px; }
+    .energy-header .meta { font-family: monospace; font-size: 0.8rem; color: #bbb; font-weight: 700; }
+
+    /* 그래프 영역 */
+    .roadmap-container {
+        position: relative;
+        height: 450px;
+        margin-bottom: 80px;
+    }
+
+    /* 곡선 그래프 (SVG 배경) */
+    .energy-path-svg {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 1;
+    }
+
+    /* 프로젝트 알림 박스 (공통) */
+    .project-bubble {
+        position: absolute;
+        z-index: 10;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+    .project-bubble:hover { transform: translateY(-10px); }
+
+    .bubble-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        width: 180px;
+    }
+
+    .bubble-label { font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
+    .bubble-title { font-size: 1.1rem; font-weight: 900; color: #000; margin-bottom: 8px; display: block; }
+    .bubble-desc { font-size: 0.85rem; color: #666; line-height: 1.4; }
+
+    
+    .month-tick.active { color: #000; }
+
+    /* 활성화된 월 상단 바 표시 */
+    .month-tick.active::before {
+        content: '';
+        position: absolute;
+        top: -21px;
+        left: 10%;
+        width: 80%;
+        height: 3px;
+    }
+
+    .m03::before { background: var(--accent-navy); }
+    .m10::before { background: #967233; }
+    .m12::before { background: #E50914; }
+
+    /* 연결 선 및 점 */
+    .connector-line {
+        width: 1px;
+        height: 40px;
+        background: linear-gradient(rgba(0,0,0,0.1), transparent);
+    }
+
+    .connector-dot {
+        width: 8px; height: 8px;
+        background: #fff;
+        border-radius: 50%;
+        border: 2px solid #000;
+        margin-top: -4px;
+    }
+
+    /* 개별 카드 위치 및 스타일 */
+    .pb-mbc { left: 25%; bottom: 220px; }
+    .pb-mbc .bubble-content { border: 2px solid var(--accent-navy); }
+    .pb-mbc .bubble-label { color: var(--accent-navy); }
+    .pb-mbc .connector-dot { border-color: var(--accent-navy); }
+
+    .pb-jtbc { left: 65%; bottom: 180px; }
+    .pb-jtbc .bubble-content { border: 2px solid #ddd; }
+    .pb-jtbc .bubble-label { color: #967233; }
+    .pb-jtbc .connector-dot { border-color: #967233; }
+
+    .pb-netflix { right: 5%; top: 30px; }
+    .pb-netflix .bubble-content { background: #000; color: #fff; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+    .pb-netflix .bubble-label { color: #E50914; }
+    .pb-netflix .bubble-title { color: #fff; }
+    .pb-netflix .bubble-desc { color: #aaa; }
+    .pb-netflix .connector-dot { border-color: #E50914; background: #E50914; }
+
+    /* 타임라인 바 */
+    .timeline-bar-wrap {
+        position: relative;
+        border-top: 2px solid #000;
+        display: flex;
+        justify-content: space-between;
+        padding-top: 15px;
+    }
+    .month-tick { flex: 1; text-align: center; font-size: 12px; font-weight: 900; color: #ddd; position: relative; }
+    .month-tick.active { color: #000; }
+    .month-tick.active::after {
+        content: ''; position: absolute; top: -17px; left: 10%; width: 80%; height: 4px;
+    }
+    .m03::after { background: var(--accent-navy); }
+    .m10::after { background: #967233; }
+    .m12::after { background: #E50914; }
+
+    /* 하단 쿼터 카드 */
+    .quarter-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+    .q-card {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 20px;
+        text-align: center;
+        border: 1px solid #eee;
+    }
+    .q-card h4 { font-size: 1rem; font-weight: 800; color: #000; margin-bottom: 10px; }
+    .q-card p { font-size: 0.85rem; color: #777; margin: 0; line-height: 1.5; }
+
+    @media (max-width: 1024px) {
+        .quarter-grid { grid-template-columns: 1fr 1fr; }
+        .project-bubble { transform: scale(0.8); }
+    }
+    /* 모든 섹션의 가로폭과 중앙 정렬을 강제 통일 */
+    .energy-flow-section, .keyword-cloud-section {
+        padding: 100px 0 !important; /* 상하 여백만 주고 좌우는 컨테이너에서 조절 */
+        background-color: #fff;
+    }
+
+    /* 통일된 내부 컨테이너 클래스 (모든 패널 크기 동일하게) */
+    .content-container {
+        max-width: 1200px; /* 기존 Career Portfolio와 동일하게 설정 */
+        margin: 0 auto;
+        padding: 0 40px; /* 내부 안전 여백 */
+        box-sizing: border-box;
+    }
+
+    /* 에너지 플로우 전용 수정 */
+    .roadmap-container {
+        position: relative;
+        height: 400px; /* 높이 약간 조절 */
+        margin: 60px 0;
+    }
+
+    /* 키워드 클라우드 전용 수정 */
+    .cloud-container {
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 30px;
+        padding: 60px 40px;
+        position: relative;
+        width: 100%; /* 부모(content-container)에 맞춤 */
+        min-height: 450px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-content: center;
+        gap: 30px 40px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+    }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Noh Sang Hyun</div>
+        <div class="nav-links">
+            <a href="#profile">Profile</a>
+            <a href="#career-detail">Career</a>
+            <a href="#market-insight">Insight</a>
+            <a href="#archive-grid">Archive</a>
+        </div>
+    </nav>
+
+    <!-- [1] PROFILE SECTION -->
+    <section id="profile">
+        <div class="profile-img-wrap">
+            <img src="profile.jpg" alt="Noh Sang Hyun">
+        </div>
+
+        <div class="profile-content">
+            <div class="name-area">
+                <h1>노상현</h1>
+                <span class="eng">Steve Noh</span>
+            </div>
+
+            <div class="data-grid">
+                <div class="data-item"><span class="label">Followers</span><span class="value">29.2M+</span></div>
+                <div class="data-item"><span class="label">Posts</span><span class="value">129</span></div>
+                <div class="data-item"><span class="label">Following</span><span class="value">198</span></div>
+            </div>
+            <div class="engagement-info">
+                <span><i class="fa-solid fa-heart" style="color:red"></i> 25.4K+</span>
+                <span><i class="fa-solid fa-comment"></i> 300+</span>
+            </div>
+
+            <div class="highlight-group">
+                <h3>Global & Major Projects</h3>
+                <div class="tag-container">
+                    <span class="premium-tag important">Netflix [다 이루어질지니]</span>
+                    <span class="premium-tag important">Apple TV+ [파친코 1, 2]</span>
+                    <span class="premium-tag">Movie [대도시의 사랑법]</span>
+                </div>
+            </div>
+
+            <div class="highlight-group">
+                <h3>Honors & Awards</h3>
+                <div class="tag-container">
+                    <span class="premium-tag award"><i class="fa-solid fa-trophy"></i> 제45회 청룡영화상 신인남우상</span>
+                    <span class="premium-tag">제11회 한국영화제작가협회상 신인배우상</span>
+                </div>
+            </div>
+
+            <div class="talent-summary">
+                <div class="summary-item"><span class="label">Physical</span><span class="value">181cm</span></div>
+                <div class="summary-item"><span class="label">Language</span><span class="value">Fully bilingual in English and Korean</span></div>
+                <div class="summary-item"><span class="label">Brand</span><span class="value">Luxury / Global</span></div>
+            </div>
+
+            <a href="https://www.instagram.com/steveshnoh" target="_blank" style="display: block; margin-top: 20px; font-size: 1rem; color: var(--accent-navy); border-bottom: 2px solid var(--accent-navy); padding-bottom: 8px; font-weight: 900; text-align: center;">
+                GO TO OFFICIAL INSTAGRAM <i class="fa-brands fa-instagram"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- [2] CAREER DETAIL -->
+
+    <section id="career-detail">
+        <h2 class="section-title">Career Portfolio</h2>
+        <div class="detail-grid">
+            <div class="detail-column">
+                <h3>Drama & Film</h3>
+                <ul class="career-list">
+                    <li class="career-item"><div class="career-year">2026</div><div class="career-content"><div class="career-title">21세기 대군부인 (MBC)</div><div class="career-info">주연 민정우 역 (예정)</div></div></li>
+                    <li class="career-item"><div class="career-year">2025</div><div class="career-content"><div class="career-title">다 이루어질지니 (Netflix)</div><div class="career-info">주연 류수현(이즈라엘) 역</div></div></li>
+                    <li class="career-item"><div class="career-year">2024</div><div class="career-content"><div class="career-title">대도시의 사랑법 (Feature Film)</div><div class="career-info">주연 장흥수 역 / 제45회 청룡영화상 신인남우상 수상</div></div></li>
+                    <li class="career-item"><div class="career-year">2024</div><div class="career-content"><div class="career-title">파친코 시즌 2 (Apple TV+)</div><div class="career-info">주연 백이삭 역 (Global Impact)</div></div></li>
+                    <li class="career-item"><div class="career-year">2023</div><div class="career-content"><div class="career-title">사운드트랙#2 (Disney+)</div><div class="career-info">주연 지수호 역</div></div></li>
+                    <li class="career-item"><div class="career-year">2022</div><div class="career-content"><div class="career-title">커튼콜 (KBS2) / 연매살 (tvN)</div><div class="career-info">주연 리문성 / 조연 이상욱</div></div></li>
+                    <li class="career-item"><div class="career-year">2017</div><div class="career-content"><div class="career-title">오늘도 형제는 평화롭다 (콬TV)</div><div class="career-info">첫 주연작 / 누적 1,500만 뷰</div></div></li>
+                </ul>
+            </div>
+
+            <div class="detail-column">
+                <h3>Brand & Editorial</h3>
+                <ul class="career-list">
+                    <li class="career-item"><div class="career-year">MAIN</div><div class="career-content"><div class="career-title">랩시리즈 글로벌 엠버서더</div><div class="career-info">메인 광고 모델</div></div></li>
+                    <li class="career-item"><div class="career-year">CF</div><div class="career-content"><div class="career-title">Hyundai Motors / Samsung TV / HOKA</div><div class="career-info">대형 브랜드 메인 캠페인 다수</div></div></li>
+                    <li class="career-item"><div class="career-year">AD</div><div class="career-content"><div class="career-title">도루코 / 미래에셋 / 쉐보레</div><div class="career-info">금융 및 라이프스타일 PR 모델</div></div></li>
+                    <li class="career-item"><div class="career-year">COVER</div><div class="career-content"><div class="career-title">에스콰이어 단독 디지털 커버</div><div class="career-info">2026년 2월호</div></div></li>
+                    <li class="career-item"><div class="career-year">MAG</div><div class="career-content"><div class="career-title">GQ / Arena / Esquire / L'Officiel</div><div class="career-info">글로벌 패션 매거진 고정 화보 모델</div></li>
+                    <li class="career-item"><div class="career-year">MV</div><div class="career-content"><div class="career-title">권진아 - 재회 / 세븐틴 승관&도겸 - Blue</div><div class="career-info">글로벌 뮤직비디오 프로필</div></li>
+                    <li class="career-item"><div class="career-year">MODEL</div><div class="career-content"><div class="career-title">Nohant / ANDEW / Uniqlo x GQ</div><div class="career-info">시즌 메인 모델 및 콜라보레이션</div></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- [3] MARKET INSIGHT -->
+<!-- [NEW] MARKET INSIGHT DASHBOARD -->
+    <section id="market-insight" class="insight-section">
+        <div style="text-align: center; margin-bottom: 60px;">
+            <p style="font-size: 0.85rem; color: #1a237e; font-weight: 800; letter-spacing: 2px; margin-bottom: 10px;">DATA DRIVEN ANALYSIS</p>
+            <h2 class="section-title" style="margin-bottom: 0;">MARKET INSIGHT & TRENDS</h2>
+            <p style="font-size: 0.9rem; color: #777; margin-top: 15px;">*본 분석 결과는 네이버 및 구글 트렌드 통계를 바탕으로 산출된 실제 시장 지표입니다.</p>
+        </div>
+
+        <div class="insight-dashboard">
+            <!-- 1. 월간 검색량 -->
+            <div class="insight-card js-scroll">
+                <span class="card-label">Monthly Search (KR)</span>
+                <div class="card-value">48,200 <span class="up-arrow">▲</span></div>
+                <span class="card-sub">Total Buzz (PC+Mobile)</span>
+            </div>
+
+            <!-- 2. 콘텐츠 포화도 -->
+            <div class="insight-card js-scroll">
+                <span class="card-label">Content Saturation</span>
+                <div class="card-value">0.89%</div>
+                <span class="card-sub" style="color: #1a237e;">매우 낮음 (시장 희소성 최상)</span>
+            </div>
+
+            <!-- 3. 대중 관심도 -->
+            <div class="insight-card js-scroll">
+                <span class="card-label">Audience Interest</span>
+                <div class="card-value" style="font-size: 1.8rem;">B Grade</div>
+                <span class="card-sub">지속적인 우상향 곡선 유지</span>
+            </div>
+
+            <!-- 5. 성별 비율 -->
+            <div class="insight-card js-scroll">
+                <span class="card-label">Gender Ratio</span>
+                <div class="gender-chart-wrap">
+                    <div class="donut-chart" data-percent="89%"></div>
+                    <div>
+                        <div style="font-size: 1.1rem; font-weight: 900; color: #1a237e;">여성 89%</div>
+                        <span class="card-sub">여성 타겟 압도적 우위</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. 지역 영향력 -->
+            <div class="insight-card js-scroll">
+                <span class="card-label">Regional Impact</span>
+                <div class="card-value" style="font-size: 1.8rem;">TOP 5</div>
+                <span class="card-sub">수도권 및 대도시 집중형</span>
+            </div>
+
+            <!-- 7. 핵심 타겟 연령 -->
+
+            <!-- 핵심 타겟 연령 카드 (너비 직접 지정) -->
+            <div class="insight-card">
+                <span class="card-label">Core Age Target</span>
+                <div class="age-bars">
+                    <div class="age-row">
+                        <span class="age-label">20s</span>
+                        <div class="age-bar-bg"><div class="age-bar-fill" style="width: 95%;"></div></div>
+                    </div>
+                    <div class="age-row">
+                        <span class="age-label">30s</span>
+                        <div class="age-bar-bg"><div class="age-bar-fill" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="age-row">
+                        <span class="age-label">40s</span>
+                        <div class="age-bar-bg"><div class="age-bar-fill" style="width: 30%;"></div></div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; font-size: 0.8rem; font-weight: 800; color: #1a237e;">구매력 높은 MZ세대 집중도 최상</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- [NEW] AUDIENCE REPUTATION KEYWORDS -->
+    <section class="keyword-cloud-section">
+        <div class="cloud-title">Audience Reputation Keywords</div>
+        
+        <div class="cloud-container">
+            <span class="keyword-tag tag-xl" style="animation-delay: 0s;">글로벌 뷰티뮤즈</span>
+            <span class="keyword-tag tag-m" style="animation-delay: 1.5s;">대도시의 사랑법</span>
+            <span class="keyword-tag tag-s" style="animation-delay: 0.5s;">글로벌앰버서더</span>
+            <span class="keyword-tag tag-l" style="animation-delay: 2.2s;">장기8단</span>
+            
+            <span class="keyword-tag tag-s" style="animation-delay: 1s;">최전방 이기자부대</span>
+            <span class="keyword-tag tag-xl" style="animation-delay: 1.8s;">파친코 7전 8기</span>
+            <span class="keyword-tag tag-m" style="animation-delay: 3s;">다이루어질지니 이즈라엘</span>
+            <span class="keyword-tag tag-l" style="animation-delay: 0.8s;">글로벌 마스크</span>
+            
+            <span class="keyword-tag tag-s" style="animation-delay: 2.5s;">Babson College 경제학</span>
+            <span class="keyword-tag tag-m" style="animation-delay: 0.2s;">대도시 사랑법 장흥수</span>
+            
+            <span class="keyword-tag tag-m" style="animation-delay: 1.2s;">뱁슨 칼리지 엘리트</span>
+            <span class="keyword-tag tag-m" style="animation-delay: 3.5s;">파친코 백이삭</span>
+            <span class="keyword-tag tag-l" style="animation-delay: 0.4s;">충무로 샛별</span>
+            <span class="keyword-tag tag-s" style="animation-delay: 2s;">커튼콜 리문성</span>
+            
+            <span class="keyword-tag tag-xl" style="animation-delay: 0.6s;">Native English</span>
+            <span class="keyword-tag tag-m" style="animation-delay: 1.7s;">병약섹시</span>
+            <span class="keyword-tag tag-s" style="animation-delay: 2.8s;">Steve Noh</span>
+            <span class="keyword-tag tag-s" style="animation-delay: 3.2s;">안데르센 오디오북</span>
+        </div>
+    </section>
+
+    <!-- [NEW] CAREER PORTFOLIO SECTION -->
+    <section id="career-portfolio" class="career-section">
+        <h2 class="section-title">Career Portfolio</h2>
+        
+        <div class="career-grid">
+            <!-- Left Column: Drama & Film -->
+            <div class="career-col">
+                <h3>Drama & Film</h3>
+                <ul class="career-list">
+                    <li class="career-item">
+                        <span class="career-label">2026</span>
+                        <div class="career-content">
+                            <strong class="title">21세기 대군부인 (MBC)</strong>
+                            <p class="desc">주연 민정우 역 (예정)</p>
+                        </div>
+                    </li>
+                    <li class="career-item">
+                        <span class="career-label">2025</span>
+                        <div class="career-content">
+                            <strong class="title">다 이루어질지니 (Netflix)</strong>
+                            <p class="desc">주연 류수현(이즈라엘) 역</p>
+                        </div>
+                    </li>
+                    <li class="career-item">
+                        <span class="career-label">2024</span>
+                        <div class="career-content">
+                            <strong class="title">대도시의 사랑법 (Feature Film)</strong>
+                            <p class="desc">주연 장흥수 역 / 제45회 청룡영화상 신인남우상 수상</p>
+                        </div>
+                    </li>
+                    <li class="career-item">
+                        <span class="career-label">2024</span>
+                        <div class="career-content">
+                            <strong class="title">파친코 시즌 2 (Apple TV+)</strong>
+                            <p class="desc">주연 백이삭 역 (Global Impact)</p>
+                        </div>
+                    </li>
+                    <li class="career-item">
+                        <span class="career-label">2023</span>
+                        <div class="career-content">
+                            <strong class="title">사운드트랙#2 (Disney+)</strong>
+                            <p class="desc">주연 지수호 역</p>
+                        </div>
+                    </li>
+                    <li class="career-item">
+                        <span class="career-label">2022</span>
+                        <div class="career-content">
+                            <strong class="title">커튼콜 (KBS2) / 연매살 (tvN)</strong>
+                            <p class="desc">주연 리문성 / 조연 이상욱</p>
+                        </div>
+                    </li>
+                    <li class="career-item">
+                        <span class="career-label">2017</span>
+                        <div class="career-content">
+                            <strong class="title">오늘도 형제는 평화롭다 (콬TV)</strong>
+                            <p class="desc">첫 주연작 / 누적 1,500만 뷰</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right Column: Brand & Editorial -->
+            <div class="career-col">
+                <h3>Brand & Editorial</h3>
+                <ul class="career-list">
+                    <li class="career-item">
+                        <span class="career-label">MAIN</span>
+                        <div class="career-content">
+                            <strong class="title">C.P. Company Global Campaign</strong>
+                            <p class="desc">메인 광고 모델</p>
+                        </div>
+                    </li>
+                    <li class="career-item">
+                        <span class="career-label">CF</span>
+                        <div class="career-content">
+                            <strong class="title">Hyundai Motors / Samsung TV / HOKA</strong>
+                            <p class="desc">대형 브랜드 메인 캠페인 다수</p>
+                        </div>
+                    </li>
+                    <li class="career-item">
+                        <span class="career-label">AD</span>
+                        <div class="career-content">
+                            <strong class="title">도루코 / 미래에셋 / 쉐보레</strong>
+                            <p class="desc">금융 및 라이프스타일 PR 모델</p>
+                        </div>
+                    </li>
+                    <li class="career-item">
+                        <span class="career-label">COVER</span>
+                        <div class="career-content">
+                            <strong class="title">Harper's Bazaar Korea 단독 커버</strong>
+                            <p class="desc">2025년 1월호</p>
+                        </div>
+                    </li>
+                    <li class="career-item">
+                        <span class="career-label">MAG</span>
+                        <div class="career-content">
+                            <strong class="title">GQ / Arena / Esquire / L'Officiel</strong>
+                            <p class="desc">글로벌 패션 매거진 고정 화보 모델</p>
+                        </div>
+                    </li>
+                    <li class="career-item">
+                        <span class="career-label">MV</span>
+                        <div class="career-content">
+                            <strong class="title">세븐틴 승관&도겸 - Blue / 권진아 - 재회 </strong>
+                            <p class="desc">글로벌 뮤직비디오 프로필</p>
+                        </div>
+                    </li>
+                    <li class="career-item">
+                        <span class="career-label">MODEL</span>
+                        <div class="career-content">
+                            <strong class="title">Nohant / ANDEW / Uniqlo x GQ</strong>
+                            <p class="desc">시즌 메인 모델 및 콜라보레이션</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="media-energy-flow" class="energy-flow-section">
+        <div class="energy-content">
+            <!-- 헤더 -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 50px;">
+                <div>
+                    <h2 style="font-size: 2.2rem; font-weight: 900; letter-spacing: -1.5px; margin: 0;">2026 MEDIA ENERGY FLOW</h2>
+                    <p style="font-size: 0.9rem; color: #967233; font-weight: 700; margin-top: 8px; letter-spacing: 2px;">지속적 인지도 상승 및 글로벌 타겟 확장 로드맵</p>
+                </div>
+                <div style="font-family: monospace; font-size: 0.75rem; color: #bbb;">STRATEGIC GROWTH VER 4.0</div>
+            </div>
+
+            <!-- 로드맵 그래프 -->
+            <div class="roadmap-container" style="position: relative; height: 350px; margin-bottom: 40px;">
+                <!-- 우상향 상승 곡선 SVG -->
+                <svg class="energy-path-svg" viewBox="0 0 1200 350" preserveAspectRatio="none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                    <!-- 메인 상승 점선 곡선 -->
+                    <path d="M0,320 C300,320 400,250 600,180 S900,100 1200,40" 
+                        fill="none" stroke="rgba(26, 35, 126, 0.15)" stroke-width="6" stroke-dasharray="12 8" />
+                    
+                    <!-- 곡선 위의 포인트 점들 -->
+                    <circle cx="250" cy="245" r="5" fill="var(--accent-navy)" />
+                    <circle cx="910" cy="105" r="5" fill="#d4af37" />
+                    <circle cx="1140" cy="55" r="5" fill="#E50914" />
+                </svg>
+
+                <!-- 03. MBC (성장의 시작) -->
+                <div class="project-bubble" style="left: 10%; bottom: 120px; position: absolute;">
+                    <div class="bubble-content" style="border: 2px solid var(--accent-navy); background: #fff; padding: 15px 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 170px;">
+                        <span style="color:var(--accent-navy); font-size:9px; font-weight:900;">03. MBC DRAMA</span>
+                        <strong style="display:block; font-size:1rem; margin:5px 0;">21세기 대군부인</strong>
+                        <p style="font-size:0.75rem; color:#777; margin:0;">지상파 주연 데뷔<br>전 연령대 인지도 확보</p>
+                    </div>
+                </div>
+
+                <!-- 10. JTBC (중점적 도약) -->
+                <div class="project-bubble" style="left: 65%; top: 40px; position: absolute;">
+                    <div class="bubble-content" style="border: 2px solid #d4af37; background: #fff; padding: 15px 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 170px;">
+                        <span style="color:#967233; font-size:9px; font-weight:900;">10. JTBC DRAMA</span>
+                        <strong style="display:block; font-size:1rem; margin:5px 0;">골드디거</strong>
+                        <p style="font-size:0.75rem; color:#777; margin:0;">파격적 캐릭터 변신<br>팬덤 충성도 강화</p>
+                    </div>
+                </div>
+
+                <!-- 12. Netflix (글로벌 정점) -->
+                <div class="project-bubble" style="right: 0%; top: -30px; position: absolute;">
+                    <div class="bubble-content" style="background:#000; color:#fff; border:none; padding: 15px 20px; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); width: 170px;">
+                        <span style="color:#E50914; font-size:9px; font-weight:900;">12. NETFLIX MOVIE</span>
+                        <strong style="display:block; font-size:1rem; margin:5px 0;">별짓</strong>
+                        <p style="font-size:0.75rem; color:#aaa; margin:0;">글로벌 스트리밍<br>영향력 세계화</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 타임라인 -->
+            <div class="timeline-bar-wrap" style="border-top: 2px solid #000; display: flex; justify-content: space-between; padding-top: 15px;">
+                <div class="month-tick">01</div>
+                <div class="month-tick">02</div>
+                <div class="month-tick active m03" style="color:#000; font-weight:900;">03</div>
+                <div class="month-tick">04</div>
+                <div class="month-tick">05</div>
+                <div class="month-tick">06</div>
+                <div class="month-tick">07</div>
+                <div class="month-tick">08</div>
+                <div class="month-tick">09</div>
+                <div class="month-tick active m10" style="color:#000; font-weight:900;">10</div>
+                <div class="month-tick">11</div>
+                <div class="month-tick active m12" style="color:#000; font-weight:900;">12</div>
+            </div>
+
+            <!-- 하단 분기 카드 (설명 문구 보강) -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 60px;">
+                <div style="background:#fcfcfc; padding:20px; border-radius:15px; border:1px solid #f0f0f0; text-align:center;">
+                    <h4 style="font-size:0.9rem; margin-bottom:8px; color:var(--accent-navy);">Q1: 기초 확립</h4>
+                    <p style="font-size:0.75rem; color:#888; margin:0; line-height:1.5;">대규모 캠페인 준비 및<br>브랜드 비주얼 자산 정비</p>
+                </div>
+                <div style="background:#fcfcfc; padding:20px; border-radius:15px; border:1px solid #f0f0f0; text-align:center;">
+                    <h4 style="font-size:0.9rem; margin-bottom:8px; color:var(--accent-navy);">Q2: 대중 확산</h4>
+                    <p style="font-size:0.75rem; color:#888; margin:0; line-height:1.5;">지상파 드라마 흥행 시너지를 통한<br>전 국민적 인지도 점유</p>
+                </div>
+                <div style="background:#fcfcfc; padding:20px; border-radius:15px; border:1px solid #f0f0f0; text-align:center;">
+                    <h4 style="font-size:0.9rem; margin-bottom:8px; color:var(--accent-navy);">Q3: 가치 심화</h4>
+                    <p style="font-size:0.75rem; color:#888; margin:0; line-height:1.5;">프리미엄 브랜드 앰버서더 활동 및<br>글로벌 팬덤 로열티 강화</p>
+                </div>
+                <div style="background:#fcfcfc; padding:20px; border-radius:15px; border:1px solid #f0f0f0; text-align:center;">
+                    <h4 style="font-size:0.9rem; margin-bottom:8px; color:var(--accent-navy);">Q4: 글로벌 도약</h4>
+                    <p style="font-size:0.75rem; color:#888; margin:0; line-height:1.5;">넷플릭스 영화 공개로<br>전 세계 시장 인지도 상승</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- [NEW] STRATEGIC MARKET REPORT SECTION -->
+    <section id="strategic-report" class="report-section">
+        <div class="report-container">
+            
+            <!-- Header -->
+            <div class="report-header">
+                <div>
+                    <h2>2026 STRATEGIC MARKET REPORT</h2>
+                    <p class="subtitle">Data-Driven Analysis for Brand Partnerships</p>
+                </div>
+                <div style="text-align: right;">
+                    <div class="ref-id">REF: NSH-2026-INSIGHT</div>
+                    <!-- 요청하신 소제목 추가 -->
+                    <div style="font-size: 0.8rem; color: var(--accent-navy); font-weight: 800; margin-top: 5px;">&lt;네이버 / 구글 검색 기반 결과 데이터&gt;</div>
+                </div>
+            </div>
+
+            <div class="report-body">
+                <!-- Left Column -->
+                <div class="report-col">
+                    <h3>차기작 기반 화제성 지수(Buzz) 예측</h3>
+                    <p class="report-text">
+                        2026년 상반기 <strong>MBC [21세기 대군부인]</strong>의 주연 민정우 역을 통해 지상파 메인 타겟층으로 인지도를 대폭 확장합니다. 이어 10월 <strong>JTBC [골드디거]</strong>의 파격적인 변신과 12월 <strong>넷플릭스 영화 [별짓]</strong>이 글로벌 공개되며 1년 내내 강력한 임팩트를 유지할 것으로 분석됩니다.
+                    </p>
+                    <div class="strategy-box">
+                        <strong>매체 믹스 전략:</strong>
+                        <p>지상파 드라마와 글로벌 OTT 영화를 잇는 연쇄적 스케줄은 브랜드가 캠페인 기간 동안 압도적인 디지털 노출과 브랜드 가치를 확보하는 데 최적의 시너지를 제공합니다.</p>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="report-col">
+                    <h3>시장 효율성 지표 (Hard Data)</h3>
+                    <p class="report-text">
+                        블랙키위 데이터 기반 콘텐츠 포화도는 <strong>0.89%</strong>로 매우 낮습니다. 이는 낮은 마케팅 경쟁 속에서 광고 집행 시 <strong>브랜드 점유율(SOV)</strong>을 독점적으로 선점할 수 있는 리딩 모델임을 입증합니다.
+                    </p>
+                    <div class="report-metrics">
+                        <div class="metric-item">
+                            <span>여성 타겟 집중도</span>
+                            <strong>89.0%</strong>
+                        </div>
+                        <div class="metric-item">
+                            <span>글로벌 검색 상승률</span>
+                            <strong>High Spike</strong>
+                        </div>
+                    </div>
+                    <p class="report-text" style="font-size: 0.85rem; color: #555; font-weight: 500;">
+                        미국 뱁슨 칼리지(Babson College) 경제학 전공의 엘리트 지적 페르소나와 완벽한 영어 실력은 하이엔드 럭셔리 브랜드의 신뢰도를 높이는 핵심 경쟁력입니다.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bottom Suggestion Banner -->
+            <div class="final-suggestion">
+                <p>
+                    "노상현의 미디어 영향력은 2026년 <span style="color: var(--accent-gold);">유례없는 정점</span>에 도달할 것입니다.<br>
+                    대중적 화제성이 폭발하기 직전인 현재의 <span style="border-bottom: 2px solid var(--accent-gold); color: var(--accent-gold);">'전략적 희소 구간'</span>을 활용해,<br>
+                    노상현 배우의 이미지를 <span style="text-decoration: underline;">독점적으로 선점</span>할 수 있는 최적의 시기입니다."
+                </p>
+                <div class="final-footer">
+                    DATA INSIGHT: 콘텐츠 포화도 0.89% 기반 브랜드 보이스(SOV) 독점력 분석
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section id="visual-archive" class="archive-section">
+        <h2 class="section-title">Visual Archive / (개발진행중 / 링크연결X)</h2>
+        <div class="archive-container">
+            
+            <!-- 1. DRAMA -->
+            <div class="archive-col">
+                <h3>1. Drama & Film</h3>
+                <ul class="archive-list">
+                    <li class="archive-item" onclick="playVideo('https://www.youtube.com/watch?v=T_2_Wn5oH6k')">다 이루어질지니 <span class="year">2025</span></li>
+                    <li class="archive-item" onclick="playVideo('fK6tKxS63i4')">파친코 시즌 2 <span class="year">2024</span></li>
+                    <li class="archive-item" onclick="playVideo('L379p_pY07A')">사운드트랙#2 <span class="year">2023</span></li>
+                </ul>
+                <button class="archive-btn" onclick="openLibrary('drama')">View Full Archive +</button>
+            </div>
+
+            <!-- 2. ADVERTISING -->
+            <div class="archive-col">
+                <h3>2. Advertising</h3>
+                <ul class="archive-list">
+                    <li class="archive-item" onclick="viewImage('cp_company.jpg')">C.P. Company 캠페인</li>
+                    <li class="archive-item" onclick="viewImage('hyundai.jpg')">현대자동차 싼타페 / 투싼</li>
+                    <li class="archive-item" onclick="viewImage('samsung.jpg')">삼성TV / 미래에셋 / 쉐보레</li>
+                </ul>
+                <button class="archive-btn" onclick="openLibrary('ad')">View Full Campaign +</button>
+            </div>
+
+            <!-- 3. MAGAZINE -->
+            <div class="archive-col">
+                <h3>3. Magazine</h3>
+                <ul class="archive-list">
+                    <li class="archive-item" onclick="viewImage('bazaar.jpg')">에스콰이어 단독 디지털 커버</li>
+                    <li class="archive-item" onclick="viewImage('gq.jpg')">바자, 데이즈드 등 유가 화보</li>
+                    <li class="archive-item" onclick="viewImage('arena.jpg')">지큐, 코스모폴리탄 등 에디토리얼</li>
+                </ul>
+                <button class="archive-btn" onclick="openLibrary('magazine')">View Full Gallery +</button>
+            </div>
+
+            <!-- 4. EVENT & DIARY -->
+            <div class="archive-col">
+                <h3>4. Event & Diary</h3>
+                <ul class="archive-list">
+                    <li class="archive-item">에르메스 런웨이</li>
+                    <li class="archive-item">돌체앤가바나/버버리 행사</li>
+                    <li class="archive-item">런닝맨 / 배우반상회 출연</li>
+                </ul>
+                <button class="archive-btn" onclick="openLibrary('event')">View Insta Feed +</button>
+            </div>
+
+            <!-- 5. MUSIC VIDEO -->
+            <div class="archive-col">
+                <h3>5. Music Video</h3>
+                <ul class="archive-list">
+                    <li class="archive-item" onclick="playVideo('dQw4w9WgXcQ')">세븐틴 도겸&승관 - Blue</li>
+                    <li class="archive-item" onclick="playVideo('F03vA9Fv4Y8')">권진아 - 재회</li>
+
+                </ul>
+                <button class="archive-btn" onclick="openLibrary('mv')">Play All Clips +</button>
+            </div>
+
+            <!-- 6. AWARDS & OTHER -->
+            <div class="archive-col">
+                <h3>6. Awards & Other</h3>
+                <ul class="archive-list">
+                    <li class="archive-item" onclick="playVideo('L2G3X9_R7A8')">제45회 청룡영화상 <span class="year">2024</span></li>
+                    <li class="archive-item" onclick="viewImage('award1.jpg')">한국영화제작가협회상</li>
+                    <li class="archive-item" onclick="viewImage('other1.jpg')">글로벌 Showcase</li>
+                </ul>
+                <button class="archive-btn" onclick="openLibrary('awards')">View Honors +</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 라이브러리 모달 -->
+    <div id="libraryModal">
+        <div class="lib-header">
+            <h2 id="libTitle">LIBRARY ARCHIVE</h2>
+            <span class="lib-close" onclick="closeLibrary()">&times;</span>
+        </div>
+        <div id="libContent" class="lib-grid"></div>
+    </div>
+
+    <!-- 상세 이미지 확대 모달 -->
+    <div id="imgModal" onclick="this.style.display='none'">
+        <img id="imgView" src="" alt="View Content">
+    </div>
+
+    <!-- 상세 영상 재생 모달 (유튜브 전용) -->
+    <div id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeVideo()">&times;</span>
+            <iframe id="modalIframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <footer><p>© 2026 NOH SANG HYUN. ALL RIGHTS RESERVED.</p></footer>
+
+<script>
+    /* [1] 데이터베이스 (카테고리별 상세 데이터) */
+    const db = {
+        drama: [
+            { title: "21세기 대군부인", year: "2026", type: "video", id: "https://youtu.be/yUyvsyH4pmo", img: "https://i.namu.wiki/i/m3k1MSs7TSdj_H_wEq178wiZ19wfGAjE6_S17kifUxZlaNOGWFr5E7GMi16IRlXoGWdZ2Z9tDZPpF6fF2yGYW6hiPtJZWpBdsFcPBJ2sJtHww8-UHEgSly0Xaa9fMYrIsAQcEc-Ks2NNkaLDaK2gLA.webp" },
+            { title: "다 이루어질지니", year: "2025", type: "video", id: "T_2_Wn5oH6k", img: "https://i.namu.wiki/i/FOd7OjORMlCzqwtH51jaMxeiwwwE2cfYTxgO-HbavLidFLSIzahnFELEwzLFdpSGNXKHot_bV8mrjYgmSNVuSu9hETbWfxJx9IU1l8pOJjnuQt4qj-n0z5mZs_ONaBD0K-bsTyEm6kjVEUNnW8Ym3Q.webp" },
+            { title: "파친코", year: "2024", type: "video", id: "fK6tKxS63i4", img: "https://i.namu.wiki/i/LKdRObUG6LJYPkH4_2gfk9FnkwDOzbrn6NQcyMCTrQwRKXubiqydQEmfijX3uYEqsSpI4p6Y5OvJo-LyD2WkPbyvk0BJMeHOVgGC9KFvLouYAQD-RIYCNPbEKHqg8r_8VnbcZ5W-Qt5CSGOLZUQZBQ.webp" },
+            { title: "사운드트랙 #2", year: "2023", type: "video", id: "L379p_pY07A", img: "https://i.namu.wiki/i/636pFLcjd02hJLe4Iz-G0t0oFmxSteHvY09zmJTX1EOWVOY0QhUkSiDi1-v-Sw59qZ0oXJGUiT6etKwa6uM0CRb-5crajaWNvWDaIdfuupRe7fzW644bOAsoDIYssCW0l17ugNs1nVaqsTk37Aq3uw.webp" },
+            { title: "커튼콜", year: "2022", type: "video", id: "2_Wv64S_7yI", img: "https://padmin.static.kbs.co.kr/2022/10/26/1666758707085_408308.jpg" }
+        ],
+        ad: [
+            { title: "C.P. Company", year: "Main", type: "image", src: "cp_company.jpg" },
+            { title: "Hyundai SantaFe", year: "CF", type: "image", src: "hyundai.jpg" },
+            { title: "Samsung TV", year: "CF", type: "image", src: "samsung.jpg" }
+        ],
+        magazine: [
+            { title: "Harper's Bazaar Cover", year: "2025", type: "image", src: "bazaar.jpg" },
+            { title: "GQ Korea", year: "2024", type: "image", src: "gq.jpg" }
+        ],
+        event: [
+            { title: "HOKA Launching", year: "Brand", type: "link", url: "https://instagram.com/steveshnoh", img: "ev1.jpg" },
+            { title: "Chanel Event", year: "Event", type: "link", url: "https://instagram.com/steveshnoh", img: "ev2.jpg" }
+        ],
+        mv: [
+            { title: "권진아 - 재회", year: "2021", type: "video", id: "F03vA9Fv4Y8", img: "mv1.jpg" },
+            { title: "티아라 - 왜 이러니", year: "2010", type: "video", id: "dQw4w9WgXcQ", img: "mv2.jpg" }
+        ],
+        awards: [
+            { title: "제45회 청룡영화상", year: "Win", type: "video", id: "L2G3X9_R7A8", img: "https://www.instagram.com/p/DC_kADNPkcf/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" },
+            { title: "한국영화제작가협회상", year: "Win", type: "image", src: "award1.jpg" }
+        ]
+    };
+
+    /* [2] 주요 기능 함수 */
+
+    // 통합 비디오 재생 함수 (오류 153 방지 로직 포함)
+    function playVideo(url) {
+        if (!url || url === "VIDEO_ID" || url === "") {
+            alert("재생할 영상 주소가 설정되지 않았습니다.");
+            return;
+        }
+
+        const videoModal = document.getElementById('videoModal');
+        const iframe = document.getElementById('modalIframe');
+        
+        // [1] 도메인 정의 (에러 발생 지점 수정)
+        // 로컬 파일로 열었을 경우(file://) origin이 "null"이 될 수 있으므로 조건 처리
+        let myDomain = window.location.origin;
+        if (myDomain === "null" || !myDomain) {
+            myDomain = "http://localhost"; // 임시 도메인 설정
+        }
+
+        let videoId = "";
+        let embedUrl = "";
+
+        // [2] 유튜브 주소 판별 및 ID 추출
+        if (url.includes('youtube.com') || url.includes('youtu.be')) {
+            if (url.includes('v=')) {
+                videoId = url.split('v=')[1].split('&')[0];
+            } else if (url.includes('youtu.be/')) {
+                videoId = url.split('youtu.be/')[1].split('?')[0];
+            } else if (url.includes('embed/')) {
+                videoId = url.split('embed/')[1].split('?')[0];
+            } else {
+                videoId = url;
+            }
+            // origin을 포함하여 보안 신뢰도 높임
+            embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(myDomain)}`;
+        } 
+        // [3] 구글 드라이브 주소 판별
+        else if (url.includes('drive.google.com')) {
+            embedUrl = url.replace('/view', '/preview');
+        } 
+        // [4] 기타 주소
+        else {
+            embedUrl = url;
+        }
+
+        // 최종 주소 할당 및 모달 표시
+        iframe.src = embedUrl;
+        videoModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    // 닫기 함수 (기존 코드에 추가/수정)
+    function closeVideo() {
+        const videoModal = document.getElementById('videoModal');
+        const iframe = document.getElementById('modalIframe');
+        
+        videoModal.style.display = 'none';
+        iframe.src = ''; // 영상 정지
+        document.body.style.overflow = 'auto';
+    }
+
+    function closeVideo() {
+        const videoModal = document.getElementById('videoModal');
+        const iframe = document.getElementById('modalIframe');
+        videoModal.style.display = 'none';
+        iframe.src = ''; // 영상 중지
+        document.body.style.overflow = 'auto';
+    }
+
+    function viewImage(src) {
+        if(!src) return;
+        const imgModal = document.getElementById('imgModal');
+        const imgView = document.getElementById('imgView');
+        imgView.src = src;
+        imgModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function openLibrary(category) {
+        const data = db[category];
+        if(!data) return;
+
+        const libModal = document.getElementById('libraryModal');
+        const libGrid = document.getElementById('libContent');
+        const libTitle = document.getElementById('libTitle');
+        
+        libGrid.innerHTML = '';
+        libGrid.className = 'lib-grid';
+
+        const titles = {
+            drama: "FILMOGRAPHY ARCHIVE",
+            ad: "ADVERTISING CAMPAIGN",
+            magazine: "EDITORIAL GALLERY",
+            event: "OFFICIAL EVENT & DIARY",
+            mv: "MUSIC VIDEO CLIPS",
+            awards: "HONORS & RECOGNITION"
+        };
+        libTitle.innerText = titles[category] || "ARCHIVE";
+
+        if (category === 'ad' || category === 'magazine') libGrid.classList.add('magazine-mode');
+
+        data.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'lib-card';
+            const imgSrc = item.img || item.src || 'https://via.placeholder.com/400x550?text=Poster';
+
+            card.innerHTML = `
+                <div class="lib-thumb"><img src="${imgSrc}" onerror="this.src='https://via.placeholder.com/400x550?text=Preparing'"></div>
+                <div class="lib-info">
+                    <div class="lib-year">${item.year}</div>
+                    <div class="lib-name">${item.title}</div>
+                </div>
+            `;
+
+            // 클릭 이벤트 연결
+            if (item.type === 'video') card.onclick = () => playVideo(item.id);
+            else if (item.type === 'image') card.onclick = () => viewImage(item.src);
+            else if (item.type === 'link') card.onclick = () => window.open(item.url, '_blank');
+
+            libGrid.appendChild(card);
+        });
+
+        libModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLibrary() {
+        document.getElementById('libraryModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    /* [3] 초기화 */
+    document.addEventListener("DOMContentLoaded", () => {
+        // 키워드 클라우드 랜덤 배치
+        const tags = document.querySelectorAll('.keyword-tag');
+        tags.forEach(tag => {
+            tag.style.left = (Math.random() * 75 + 5) + "%";
+            tag.style.top = (Math.random() * 75 + 5) + "%";
+            tag.style.transform = "rotate(" + ((Math.random() - 0.5) * 30) + "deg)";
+        });
+
+        // 차트 애니메이션
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal');
+                    const ageBars = entry.target.querySelectorAll('.age-bar-fill');
+                    ageBars.forEach(bar => {
+                        const widthVal = bar.style.getPropertyValue('--w') || "10%";
+                        bar.style.width = widthVal;
+                    });
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.insight-card').forEach(card => observer.observe(card));
+    });
+
+    // 배경 클릭 시 닫기 (공통)
+    window.onclick = function(event) {
+        const imgModal = document.getElementById('imgModal');
+        const videoModal = document.getElementById('videoModal');
+        const libModal = document.getElementById('libraryModal');
+        if (event.target == imgModal) { imgModal.style.display = "none"; document.body.style.overflow = 'auto'; }
+        if (event.target == videoModal) closeVideo();
+        if (event.target == libModal) closeLibrary();
+    };
+</script>
+</body>
+</html>

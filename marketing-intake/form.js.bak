@@ -1,0 +1,132 @@
+/* UTF-8 */
+const TEAMS = [
+  { id: 'management', label: '매니지먼트' },
+  { id: 'pr', label: 'PR·홍보' },
+  { id: 'marketing', label: '마케팅' },
+  { id: 'sales', label: '세일즈' },
+  { id: 'fan', label: '팬미팅' },
+  { id: 'content', label: '콘텐츠·SNS' },
+  { id: 'styling', label: '스타일링' },
+  { id: 'production', label: '작품 홍보' },
+];
+
+const LABELS = {
+  agency: '소속사', writer: '작성자', contact: '연락처', visibility: '공개범위',
+  driveLink: '첨부링크', keywords: '브랜드키워드', kpi: 'KPI', schedule: '월별일정',
+  restrictions: '제약사항',
+  m_priority: '우선순위', m_works: '작품일정', m_overseas: '해외팬미팅',
+  m_approval: '승인라인', m_persona: '성향금기', m_roles: '역할분담',
+  p_profile: '프로필', p_press: '보도', p_works: '작품홍보', p_events: '화보행사',
+  p_media: '희망매체', p_sns: 'SNS',
+  k_strategy: '전략', k_milestones: '마일스톤', k_scale: '캐릭터배우',
+  k_brand: '럭셔리바이럴', k_diff: '차별화',
+  s_2025: '2025실적', s_brands: '진행브랜드', s_drop: '드랍', s_roadmap: '2026매칭', s_link: '포트폴리오',
+  f_plan: '팬미팅', f_when: '시기', f_md: 'MD', f_data: '팬덤', f_pref: '배우선호',
+  v_channels: '채널', v_main: '1안채널', v_viral: '바이럴', v_ref: '레퍼런스', v_ban: '금지',
+  t_keyword: '스타일', t_brands: '협찬', t_events: '패션위크', t_link: '레퍼런스',
+  d_work1: '작품1', d_allow: '마케팅허용', d_work23: '작품23', d_global: 'PPL',
+  final_request: 'PT요청', final_comment: '코멘트',
+};
+
+let currentTeam = 'management';
+
+function init() {
+  const tabs = document.getElementById('teamTabs');
+  TEAMS.forEach((t, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = t.label;
+    b.dataset.team = t.id;
+    if (i === 0) b.classList.add('active');
+    b.onclick = () => selectTeam(t.id);
+    tabs.appendChild(b);
+  });
+  selectTeam('management');
+  const q = new URLSearchParams(location.search).get('team');
+  if (q && TEAMS.some(t => t.id === q)) selectTeam(q);
+  document.querySelector('[name="k_scale"]')?.addEventListener('input', e => {
+    document.getElementById('kScaleVal').textContent = e.target.value;
+  });
+}
+
+function selectTeam(id) {
+  currentTeam = id;
+  document.querySelectorAll('.team-tabs button').forEach(b => {
+    b.classList.toggle('active', b.dataset.team === id);
+  });
+  document.querySelectorAll('.section-team').forEach(el => {
+    el.classList.toggle('visible', el.dataset.team === id);
+  });
+  document.querySelectorAll('[data-team-required]').forEach(el => {
+    el.required = el.dataset.teamRequired === id;
+  });
+}
+
+function collectData() {
+  const actor = document.getElementById('actorName').value.trim() || '(배우명 미입력)';
+  const teamLabel = TEAMS.find(t => t.id === currentTeam)?.label || currentTeam;
+  const fd = new FormData(document.getElementById('mainForm'));
+  const lines = [
+    '======================================',
+    '2026 마케팅 플랜 기초 자료',
+    '======================================',
+    `배우: ${actor}`,
+    `팀: ${teamLabel}`,
+    `제출: ${new Date().toLocaleString('ko-KR')}`,
+    '--------------------------------------',
+  ];
+  for (const [key, val] of fd.entries()) {
+    if (!val || String(val).trim() === '') continue;
+    lines.push(`\n[${LABELS[key] || key}]`);
+    lines.push(String(val).trim());
+  }
+  lines.push('\n======================================');
+  return { text: lines.join('\n'), actor, team: teamLabel };
+}
+
+function submitForm() {
+  const actor = document.getElementById('actorName').value.trim();
+  if (!actor) {
+    alert('상단에 배우명을 입력해 주세요.');
+    document.getElementById('actorName').focus();
+    return;
+  }
+  if (!document.getElementById('mainForm').reportValidity()) return;
+  const data = collectData();
+  document.getElementById('outputPre').textContent = data.text;
+  document.getElementById('modal').classList.add('show');
+  downloadTxtSilent(data);
+}
+
+function previewText() {
+  const data = collectData();
+  document.getElementById('outputPre').textContent = data.text;
+  document.getElementById('modal').classList.add('show');
+}
+
+function copyOutput() {
+  const t = document.getElementById('outputPre').textContent;
+  navigator.clipboard.writeText(t).then(() => alert('복사되었습니다.'))
+    .catch(() => prompt('아래를 복사하세요:', t));
+}
+
+function downloadTxt() {
+  downloadTxtSilent(collectData());
+  alert('다운로드되었습니다.');
+}
+
+function downloadTxtSilent(data) {
+  const safe = (data.actor + '_' + data.team).replace(/[\\/:*?"<>|]/g, '_');
+  const blob = new Blob([data.text], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `마케팅플랜_${safe}_${Date.now()}.txt`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+
+init();

@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 마케팅 플랜 — 기초 자료 요청</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>2026 마케팅 플랜 · 기초 자료</h1>
+      <p>에코글로벌그룹 PT 제작용 · <strong>아는 만큼만</strong> 적어 주세요 · 모르면 "미정"</p>
+      <div class="actor-input">
+        <label class="header-label">배우명 <span class="req">*</span></label>
+        <input type="text" id="actorName" placeholder="배우명 (한글)" required>
+      </div>
+    </header>
+
+    <div class="card guide-box">
+      <h2>📝 작성 방법</h2>
+      <ol class="guide-list">
+        <li>아래 <strong>3개 탭</strong> 중 해당하는 것을 선택합니다.</li>
+        <li>담당 영역이 여러 개면 <strong>탭마다 한 번씩</strong> 제출해 주세요.</li>
+        <li>💡 에코글로벌그룹 내부용 — 짧게만 적어도 됩니다.</li>
+      </ol>
+      <button type="button" class="btn btn-ghost" onclick="fillAllVisibleExamples()">비어 있는 칸에 예시 문구 넣기 (참고용)</button>
+    </div>
+
+    <div class="card">
+      <h2>1. 작성 영역 선택</h2>
+      <p class="sub">탭 3개 · PR·마케팅·세일즈·콘텐츠 / 팬미팅 / 스타일·로드맵·작품</p>
+      <div class="team-tabs" id="teamTabs"></div>
+    </div>
+
+    <form id="mainForm">
+      <div class="card section-always">
+        <h2>2. 누가 보내는지</h2>
+        <div class="row">
+          <div class="field">
+            <label>소속사</label>
+            <p class="fixed-value">에코글로벌그룹</p>
+          </div>
+          <div class="field"><label>작성자 이름 <span class="req">*</span></label><input name="writer" required></div>
+        </div>
+      </div>
+
+      <div class="card section-always">
+        <h2>3. 공통 (모든 탭)</h2>
+        <div class="field">
+          <label>이 배우를 표현하는 단어 3~5개 <span class="req">*</span></label>
+          <input name="keywords" required>
+        </div>
+        <div class="field">
+          <label>2026년에 가장 이루고 싶은 것 (한 문장) <span class="req">*</span></label>
+          <textarea name="kpi" required rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>올해 일정 요약 <span class="req">*</span></label>
+          <textarea name="schedule" required rows="5"></textarea>
+        </div>
+        <div class="field">
+          <label>하면 안 되는 것 <span class="req">*</span></label>
+          <textarea name="restrictions" required rows="2"></textarea>
+        </div>
+      </div>
+
+      <!-- TAB 1: PR · 마케팅 · 세일즈 · 콘텐츠 -->
+      <div class="card section-team" data-team="brand">
+        <h2>PR · 마케팅 · 세일즈 · 콘텐츠</h2>
+        <p class="sub">홍보·브랜딩·광고 제안·SNS·바이럴 관련 내용을 한 번에 적어 주세요.</p>
+
+        <h3 class="block-title">PR · 홍보</h3>
+        <div class="field">
+          <label>새 프로필·보도 계획 <span class="req">*</span></label>
+          <textarea name="p_profile" data-team-required="brand" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>올해 보도·인터뷰 <span class="req">*</span></label>
+          <textarea name="p_press" data-team-required="brand" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>작품별 홍보 일정 <span class="req">*</span></label>
+          <textarea name="p_works" data-team-required="brand" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>화보·시상식·행사 <span class="opt">선택</span></label>
+          <textarea name="p_events" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>나왔으면 하는 프로그램·매체 <span class="opt">선택</span></label>
+          <textarea name="p_media" rows="2"></textarea>
+        </div>
+
+        <h3 class="block-title">마케팅 · 브랜딩</h3>
+        <div class="field">
+          <label>올해 마케팅 방향 (한 문장) <span class="req">*</span></label>
+          <input name="k_strategy" data-team-required="brand">
+        </div>
+        <div class="field">
+          <label>월별 핵심 일정 <span class="req">*</span></label>
+          <textarea name="k_milestones" data-team-required="brand" rows="4"></textarea>
+        </div>
+        <div class="field">
+          <label>하고 싶은 브랜드·이벤트·콜라보 <span class="req">*</span></label>
+          <textarea name="k_brand" data-team-required="brand" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>내년까지 이어갈 계획 <span class="opt">선택</span></label>
+          <textarea name="k_diff" rows="2"></textarea>
+        </div>
+
+        <h3 class="block-title">세일즈 · 비즈</h3>
+        <div class="field">
+          <label>잘 맞는 업종·논의 중인 브랜드 <span class="req">*</span></label>
+          <textarea name="s_brands" data-team-required="brand" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>올해 맞추고 싶은 브랜드·시기 <span class="req">*</span></label>
+          <textarea name="s_roadmap" data-team-required="brand" rows="3"></textarea>
+        </div>
+
+        <h3 class="block-title">콘텐츠 · SNS · 바이럴</h3>
+        <div class="field">
+          <label>SNS 주소·운영 방식 <span class="req">*</span></label>
+          <textarea name="v_channels" data-team-required="brand" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>가장 잘 맞는 채널 1개 + 이유 <span class="req">*</span></label>
+          <textarea name="v_main" data-team-required="brand" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>숏폼·바이럴 촬영 시기 <span class="req">*</span></label>
+          <textarea name="v_viral" data-team-required="brand" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>참고 영상 URL <span class="opt">없어도 됨</span></label>
+          <textarea name="v_ref" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>하지 않았으면 하는 콘텐츠 <span class="req">*</span></label>
+          <textarea name="v_ban" data-team-required="brand" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>SNS 운영 방향 <span class="opt">선택</span></label>
+          <textarea name="p_sns" rows="2"></textarea>
+        </div>
+      </div>
+
+      <!-- TAB 2: 팬미팅 -->
+      <div class="card section-team" data-team="fan">
+        <h2>팬미팅</h2>
+        <p class="sub">팬덤·팬미팅·해외 meet 관련만 적어 주세요.</p>
+        <div class="field">
+          <label>팬미팅 계획 <span class="req">*</span></label>
+          <p class="hint">해당되는 항목을 모두 체크 · <strong>없음</strong> 선택 시 아래 질문은 건너뜁니다</p>
+          <div class="check-group" id="fanPlanChecks">
+            <label class="check-item"><input type="checkbox" name="f_plan" value="국내 단독"> 국내 단독</label>
+            <label class="check-item"><input type="checkbox" name="f_plan" value="해외"> 해외</label>
+            <label class="check-item"><input type="checkbox" name="f_plan" value="국내+해외"> 국내+해외</label>
+            <label class="check-item"><input type="checkbox" name="f_plan" value="검토 중"> 검토 중</label>
+            <label class="check-item check-none"><input type="checkbox" name="f_plan" id="fanPlanNone" value="없음"> 없음 (올해 계획 없음)</label>
+          </div>
+        </div>
+        <div id="fanDetailFields">
+        <div class="field">
+          <label>시기·장소·규모 <span class="req">*</span></label>
+          <textarea name="f_when" data-team-required="fan" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>콘셉트·굿즈 아이디어 <span class="req">*</span></label>
+          <textarea name="f_md" data-team-required="fan" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>팬 수·팬카페·데이터 <span class="opt">선택</span></label>
+          <textarea name="f_data" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>배우님 부담·선호 <span class="opt">선택</span></label>
+          <textarea name="f_pref" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>해외 팬미팅·meet 가능 지역 <span class="opt">선택</span></label>
+          <textarea name="f_overseas" rows="2"></textarea>
+        </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: 스타일 · 로드맵 · 벤치마크 · 작품 -->
+      <div class="card section-team" data-team="strategy">
+        <h2>스타일 · 매니지먼트 로드맵 · 벤치마크 · 작품</h2>
+        <p class="sub">패션·1~3년 방향·레퍼런스 배우·작품 홍보를 적어 주세요.</p>
+
+        <h3 class="block-title">매니지먼트 방향성 (1~3년)</h3>
+        <div class="field">
+          <label>1년차 (2026) 목표·우선순위 <span class="req">*</span></label>
+          <textarea name="roadmap_y1" data-team-required="strategy" rows="4"></textarea>
+        </div>
+        <div class="field">
+          <label>2년차 (2027) 방향 <span class="req">*</span></label>
+          <textarea name="roadmap_y2" data-team-required="strategy" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>3년차 (2028) 방향 <span class="opt">선택</span></label>
+          <textarea name="roadmap_y3" rows="3"></textarea>
+        </div>
+        <div class="field field-highlight">
+          <label>배우님 성향·피해야 할 것 <span class="req">*</span></label>
+          <p class="field-note">※ <strong>세일즈·광고 파트</strong>가 제안·계약 시 반드시 참고하는 항목입니다.</p>
+          <textarea name="m_persona" data-team-required="strategy" rows="3"></textarea>
+        </div>
+
+        <h3 class="block-title">벤치마킹 레퍼런스 배우</h3>
+        <div class="field">
+          <label>참고하고 싶은 배우 + 이유 <span class="req">*</span></label>
+          <textarea name="benchmark" data-team-required="strategy" rows="5"></textarea>
+        </div>
+
+        <h3 class="block-title">스타일링 · 패션</h3>
+        <div class="field">
+          <label>옷·헤어 스타일 키워드 <span class="req">*</span></label>
+          <input name="t_keyword" data-team-required="strategy">
+        </div>
+        <div class="field">
+          <label>협찬 / 희망 브랜드 <span class="req">*</span></label>
+          <textarea name="t_brands" data-team-required="strategy" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>패션위크·시상식·레드카펫 <span class="opt">선택</span></label>
+          <textarea name="t_events" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>스타일 참고 링크 <span class="opt">없어도 됨</span></label>
+          <p class="hint">참고 사진·URL이 있을 때만.</p>
+          <input type="text" name="t_link" autocomplete="off">
+        </div>
+
+        <h3 class="block-title">작품 홍보</h3>
+        <div class="field">
+          <label>작품 1 — 제목 / 역할 / 촬영·방영 <span class="req">*</span></label>
+          <textarea name="d_work1" data-team-required="strategy" rows="4"></textarea>
+        </div>
+        <div class="field">
+          <label>캐릭터·스포·콜라보 홍보 가능 범위 <span class="req">*</span></label>
+          <textarea name="d_allow" data-team-required="strategy" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>작품 2·3 (있으면) <span class="opt">선택</span></label>
+          <textarea name="d_work23" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>해외·PPL·OTT <span class="opt">선택</span></label>
+          <textarea name="d_global" rows="2"></textarea>
+        </div>
+      </div>
+
+      <div class="card section-always">
+        <h2>4. 마지막으로</h2>
+        <div class="field">
+          <label>PT에 꼭 넣어 달라는 말 <span class="opt">선택</span></label>
+          <textarea name="final_request" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>미팅 가능한 날 <span class="opt">선택</span></label>
+          <p class="hint">달력에서 날짜를 눌러 선택·해제 (여러 날 가능)</p>
+          <div id="meetingCalendar" class="meeting-calendar" aria-label="미팅 가능일 달력"></div>
+          <div id="meetingSelectedChips" class="meeting-chips"></div>
+          <input type="hidden" name="meeting_dates" id="meetingDatesValue">
+        </div>
+        <div class="field">
+          <label>기타 메모 <span class="opt">선택</span></label>
+          <input type="text" name="final_comment" autocomplete="off" placeholder="미팅 외 전달할 내용">
+        </div>
+      </div>
+    </form>
+
+    <footer>© ECHO GLOBAL GROUP</footer>
+  </div>
+
+  <div class="sticky-bar">
+    <button type="button" class="btn btn-secondary" onclick="previewText()">미리보기</button>
+    <button type="button" class="btn btn-primary" onclick="submitForm()">제출 · 파일 저장</button>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <h3>작성 완료</h3>
+      <p class="modal-desc">Git 저장이 켜져 있으면 저장소에 자동 반영됩니다. 실패 시 TXT·복사로 보내 주세요.</p>
+      <pre id="outputPre"></pre>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary" onclick="copyOutput()">복사하기</button>
+        <button type="button" class="btn btn-secondary" onclick="downloadTxt()">TXT 다운로드</button>
+        <button type="button" class="btn btn-secondary" onclick="closeModal()">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="form.js?v=4" charset="UTF-8"></script>
+</body>
+</html>
