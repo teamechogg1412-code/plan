@@ -15,12 +15,15 @@
 
 ## GitHub에 올려서 링크로 공유 (GitHub Pages)
 
-1. 이 폴더(`marketing-intake`)를 GitHub 저장소에 push
-2. 저장소 **Settings** → **Pages**
-3. Source: **Deploy from a branch**
-4. Branch: `main` / Folder: **`/marketing-intake`** (또는 루트에 `index.html`만 올렸다면 `/root`)
-5. 저장 후 1~2분 뒤 URL 확인  
-   예: `https://[아이디].github.io/[저장소명]/`
+**General 탭이 아니라 왼쪽 메뉴 `Pages` 입니다.**
+
+1. 저장소 push (이미 되어 있으면 생략)
+2. **Settings** → 왼쪽 **Pages** (Code and automation 아래)
+3. **Build and deployment** → Source: **GitHub Actions** 선택  
+   (`Deploy from a branch` 가 아님 — `marketing-intake` 는 branch 폴더로 배포 불가)
+4. **Actions** 탭에서 `Deploy marketing-intake to Pages` 워크플로가 ✅ 되면 1~3분 대기
+5. Pages 화면 상단에 URL 표시  
+   **https://teamechogg1412-code.github.io/plan/**
 
 ### 팀별 바로가기 링크
 
@@ -30,7 +33,7 @@
 | 팬미팅 | `?team=fan` |
 | 스타일·로드맵·작품 | `?team=strategy` |
 
-예: `https://xxx.github.io/yyy/?team=pr`
+예: `https://teamechogg1412-code.github.io/plan/?team=fan`
 
 ## 응답 받는 방법
 
