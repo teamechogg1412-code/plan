@@ -10,8 +10,10 @@
 
 1. [Settings → Pages](https://github.com/teamechogg1412-code/plan/settings/pages)
 2. **Build and deployment** → Source: **Deploy from a branch**
-3. Branch: **main** / Folder: **/docs**
+3. Branch: **main** / Folder: **`/ (root)`** 또는 **`/docs`** (둘 다 `index.html` 있음)
 4. Save → 1~2분 후 위 링크 접속
+
+> README만 보이면: 루트에 `index.html`이 없거나 Jekyll이 README를 띄운 것 → 지금은 `.nojekyll` + `index.html` 로 수정됨.
 
 ### 팀별 바로가기
 
